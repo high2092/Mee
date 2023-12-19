@@ -11,3 +11,11 @@
 
 #!.yarn/cache
 .pnp.*
+
+.next
+
+.env*
+
+.DS_Store
+
+.vscode
