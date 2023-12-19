@@ -1,4 +1,5 @@
 import { dummyTaskList } from '../../../data/task';
+import { NewTaskButton } from '../NewTaskButton/NewTaskButton';
 import { Task } from '../Task/Task';
 import { taskListStyle, taskManagerStyle, timeStampStyle } from './TaskManager.css';
 
@@ -14,6 +15,7 @@ export function TaskManager() {
         {dummyTaskList.map((task) => (
           <Task key={`task-${task.id}`} {...task} />
         ))}
+        <NewTaskButton />
       </div>
     </div>
   );

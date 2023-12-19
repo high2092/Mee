@@ -1,5 +1,7 @@
 import '../../public/css/reset.css';
 import '../../public/css/index.css';
+import { AppRecoilRoot } from './components/recoil/RecoilRoot';
+import { ModalContainer } from './components/modals/ModalContainer';
 
 export const metadata = {
   title: 'Next.js',
@@ -9,7 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AppRecoilRoot>
+          {children}
+          <ModalContainer />
+        </AppRecoilRoot>
+      </body>
     </html>
   );
 }
