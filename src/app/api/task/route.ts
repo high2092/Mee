@@ -1,7 +1,20 @@
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../../../firebase/firestore';
+import { NextRequest } from 'next/server';
 
 const taskCollectionRef = collection(db, 'task');
+
+export async function GET(req: NextRequest) {
+  const date = req.nextUrl.searchParams.get('date');
+
+  if (!validateDateString(date)) {
+    return Response.json({}, { status: 400 });
+  }
+
+  const tasks = (await getDocs(query(taskCollectionRef, where('date', '==', date)))).docs.map((doc) => doc.data());
+
+  return Response.json({ tasks });
+}
 
 const regexHHmm = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
 
@@ -42,7 +55,11 @@ export async function POST(req: Request) {
 
 const regexYYYYmmdd = /^\d{4}\d{2}\d{2}$/;
 
-function validateDateString(dateString: string) {
+function validateDateString(dateString: string | null) {
+  if (!dateString) {
+    return false;
+  }
+
   if (!regexYYYYmmdd.test(dateString)) {
     return false;
   }
