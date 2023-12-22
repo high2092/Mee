@@ -2,12 +2,15 @@ import { taskModalStyle, titleInputStyle, labelStyle, textAreaStyle, timeInputSt
 import { CenteredModal, PreparedModalProps } from './Modal';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
-import { getToday } from '../../../utility/date';
+import { convertDate } from '../../../utility/date';
 import { useModal } from '../../../hooks/useModal';
+import { useRecoilValue } from 'recoil';
+import { dateAtom } from '../../../state/date';
 
 export function TaskModal({ zIndex }: PreparedModalProps) {
+  const date = useRecoilValue(dateAtom);
   const { closeModal } = useModal();
-  const { register, handleSubmit: onSubmit } = useForm<TaskDto>({ mode: 'onSubmit', defaultValues: { date: getToday() } });
+  const { register, handleSubmit: onSubmit } = useForm<TaskDto>({ mode: 'onSubmit', defaultValues: { date: convertDate(date) } });
 
   const handleSubmit = useCallback((data: TaskDto) => {
     httpPostTask(data).then(closeModal);
