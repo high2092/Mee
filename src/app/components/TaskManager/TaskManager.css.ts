@@ -35,6 +35,10 @@ export const timeStampStyle = style({
 export const taskListStyle = style({
   position: 'relative',
   flexGrow: 1,
+
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const dateSelectorContainerStyle = style({

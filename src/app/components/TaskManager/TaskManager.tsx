@@ -1,26 +1,21 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { NewTaskButton } from '../NewTaskButton/NewTaskButton';
 import { Task } from '../Task/Task';
 import { dateSectionStyle, dateSelectorContainerStyle, dateStyle, taskListStyle, taskManagerStyle, timeStampStyle } from './TaskManager.css';
-import { convertDate, getNextDate, getPrevDate, getYYYYMMDDList } from '../../../utility/date';
+import { getNextDate, getPrevDate, getYYYYMMDDList } from '../../../utility/date';
 import { DateSelector } from '../DateSelector/DateSelector';
 import { useRecoilState } from 'recoil';
 import { dateAtom } from '../../../state/date';
 import { PrevButton } from '../DateSelector/PrevButton';
 import { NextButton } from '../DateSelector/NextButton';
 import { nextButtonStyle } from '../DateSelector/NextButton.css';
+import { useTask } from '../../../hooks/useTask';
 
 export function TaskManager() {
   const [date, setDate] = useRecoilState(dateAtom);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [showDateSelector, setShowDateSelector] = useState(false);
-
-  useEffect(() => {
-    if (!date) return;
-    httpGetTasks(date).then(setTasks);
-  }, [date]);
 
   const handleDateClick = useCallback(() => {
     setShowDateSelector((show) => !show);
@@ -51,9 +46,7 @@ export function TaskManager() {
           ))}
         </div>
         <div className={taskListStyle}>
-          {tasks.map((task) => (
-            <Task key={`task-${task.id}`} {...task} />
-          ))}
+          <TaskList />
           <NewTaskButton />
         </div>
       </div>
@@ -61,12 +54,16 @@ export function TaskManager() {
   );
 }
 
-async function httpGetTasks(date: Date) {
-  const dateString = convertDate(date);
-  const response = await fetch(`/api/task?date=${dateString}`);
-  if (response.status !== 200) {
-    throw new Error();
-  }
-  const { tasks } = await response.json();
-  return tasks;
+function TaskList() {
+  const { tasks, isLoading } = useTask();
+
+  if (isLoading) return <>Loading...</>;
+
+  return (
+    <>
+      {tasks.map((task) => (
+        <Task key={`task-${task.id}`} {...task} />
+      ))}
+    </>
+  );
 }
