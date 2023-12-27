@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     return Response.json({}, { status: 400 });
   }
 
-  const tasks = (await getDocs(query(taskCollectionRef, where('date', '==', date)))).docs.map((doc) => doc.data());
+  const tasks = (await getDocs(query(taskCollectionRef, where('date', '==', date)))).docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return Response.json({ tasks });
 }
