@@ -7,7 +7,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function useTask() {
   const [date] = useRecoilState(dateAtom);
-  const { data, isLoading, error } = useSWR(`/api/task?date=${convertDate(date)}`, fetcher);
+  const { data, isLoading, error, mutate } = useSWR(`/api/task?date=${convertDate(date)}`, fetcher);
 
-  return { tasks: data?.tasks ?? [], isLoading, isError: error };
+  return { tasks: data?.tasks ?? [], isLoading, isError: error, mutate };
 }

@@ -6,14 +6,19 @@ import { convertDate } from '../../../utility/date';
 import { useModal } from '../../../hooks/useModal';
 import { useRecoilValue } from 'recoil';
 import { dateAtom } from '../../../state/date';
+import { useTask } from '../../../hooks/useTask';
 
 export function TaskModal({ zIndex }: PreparedModalProps) {
   const date = useRecoilValue(dateAtom);
+  const { mutate } = useTask();
   const { closeModal } = useModal();
   const { register, handleSubmit: onSubmit } = useForm<TaskDto>({ mode: 'onSubmit', defaultValues: { date: convertDate(date) } });
 
   const handleSubmit = useCallback((data: TaskDto) => {
-    httpPostTask(data).then(closeModal);
+    httpPostTask(data).then(() => {
+      mutate();
+      closeModal();
+    });
   }, []);
 
   return (
