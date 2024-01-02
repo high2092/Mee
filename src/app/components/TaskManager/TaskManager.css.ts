@@ -16,16 +16,20 @@ export const dateStyle = style({
 });
 
 export const taskManagerStyle = style({
-  position: 'relative',
-  height: '90vh',
-  padding: '0.5rem',
+  height: '100%',
+
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const taskListContainer = style({
+  flexGrow: 1,
 
   display: 'flex',
 });
 
 export const timeStampStyle = style({
-  height: '100%',
-  paddingRight: '0.5rem',
+  padding: '0 0.5rem',
 
   display: 'flex',
   flexDirection: 'column',

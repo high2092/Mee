@@ -2,6 +2,8 @@ import '../../public/css/reset.css';
 import '../../public/css/index.css';
 import { AppRecoilRoot } from './components/recoil/RecoilRoot';
 import { ModalContainer } from './components/modals/ModalContainer';
+import { NavBar } from './components/NavBar/NavBar';
+import { layout, main } from './layout.css';
 
 export const metadata = {
   title: 'Next.js',
@@ -13,7 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <AppRecoilRoot>
-          {children}
+          <div className={layout}>
+            <div className={main}>{children}</div>
+            <NavBar />
+          </div>
           <ModalContainer />
         </AppRecoilRoot>
       </body>

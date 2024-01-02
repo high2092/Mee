@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 import { NewTaskButton } from '../NewTaskButton/NewTaskButton';
 import { Task } from '../Task/Task';
-import { dateSectionStyle, dateSelectorContainerStyle, dateStyle, taskListStyle, taskManagerStyle, timeStampStyle } from './TaskManager.css';
+import { dateSectionStyle, dateSelectorContainerStyle, dateStyle, taskListContainer, taskListStyle, taskManagerStyle, timeStampStyle } from './TaskManager.css';
 import { getNextDate, getPrevDate, getYYYYMMDDList } from '../../../utility/date';
 import { DateSelector } from '../DateSelector/DateSelector';
 import { useRecoilState } from 'recoil';
@@ -22,7 +22,7 @@ export function TaskManager() {
   }, []);
 
   return (
-    <div>
+    <div className={taskManagerStyle}>
       <div className={dateSectionStyle}>
         <div className={nextButtonStyle} onClick={() => setDate(getPrevDate(date))}>
           <PrevButton />
@@ -39,7 +39,7 @@ export function TaskManager() {
           </div>
         )}
       </div>
-      <div className={taskManagerStyle}>
+      <div className={taskListContainer}>
         <div className={timeStampStyle}>
           {Array.from({ length: 25 }).map((_, i) => (
             <span key={`time-${i}`}>{`${i.toString().padStart(2, '0')}:00`}</span>
